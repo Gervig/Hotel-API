@@ -1,17 +1,20 @@
 package app.security.entities;
 
 import jakarta.persistence.*;
-
+import org.mindrot.jbcrypt.BCrypt;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="users")
+@Table(name="users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class User implements ISecurityUser
 {
     //Username og password er bare minimum når man skal kunne oprette sig
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @Column(unique = true)
     String username;
     String password;
 
