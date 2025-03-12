@@ -20,10 +20,7 @@ public class HotelDTO
 
     public HotelDTO(Hotel hotel)
     {
-        if (hotel.getId() != null)
-        {
-            this.id = hotel.getId();
-        }
+        this.id = hotel.getId();
         this.name = hotel.getName();
         this.address = hotel.getAddress();
 

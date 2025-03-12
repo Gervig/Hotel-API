@@ -7,7 +7,7 @@ import jakarta.persistence.EntityManagerFactory;
 
 public class RoleDAO
 {
-    private static EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
+    private static EntityManagerFactory emf;
     private static RoleDAO instance;
 
     // singleton **

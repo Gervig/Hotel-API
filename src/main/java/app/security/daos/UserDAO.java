@@ -10,7 +10,7 @@ import java.util.List;
 
 public class UserDAO
 {
-    private static EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
+    private static EntityManagerFactory emf;
     private static UserDAO instance;
 
     // singleton **

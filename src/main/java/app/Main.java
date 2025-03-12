@@ -2,6 +2,7 @@ package app;
 
 import app.config.HibernateConfig;
 import app.populators.HotelPopulator;
+import app.populators.UserPopulator;
 import app.rest.ApplicationConfig;
 import app.rest.Routes;
 import jakarta.persistence.EntityManagerFactory;
@@ -13,6 +14,7 @@ public class Main
         EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
 
         HotelPopulator.populate(emf);
+        UserPopulator.populate(emf);
 
         ApplicationConfig
                 .getInstance()

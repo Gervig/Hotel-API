@@ -24,14 +24,8 @@ public class RoomDTO
 
     public RoomDTO(Room room)
     {
-        if (room.getId() != null)
-        {
-            this.id = room.getId();
-        }
-        if (room.getHotel().getId() != null)
-        {
-            this.hotelId = room.getHotel().getId();
-        }
+        this.id = room.getId();
+        this.hotelId = room.getHotel().getId();
         this.number = room.getNumber();
         this.price = room.getPrice();
     }

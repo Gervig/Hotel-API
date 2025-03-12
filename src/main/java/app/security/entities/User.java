@@ -1,6 +1,7 @@
 package app.security.entities;
 
 import jakarta.persistence.*;
+import lombok.ToString;
 import org.mindrot.jbcrypt.BCrypt;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,6 +25,7 @@ public class User implements ISecurityUser
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
+    @ToString.Exclude
     Set<Role> roles = new HashSet<>();
 
     public User(String username, String password){
