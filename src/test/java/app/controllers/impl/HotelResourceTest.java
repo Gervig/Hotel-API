@@ -1,6 +1,7 @@
 package app.controllers.impl;
 
 import app.config.HibernateConfig;
+import app.daos.impl.HotelDAO;
 import app.dtos.HotelDTO;
 import app.dtos.RoomDTO;
 import app.entities.Hotel;
@@ -43,6 +44,20 @@ class HotelResourceTest
     void tearDown()
     {
         ApplicationConfig.stopServer();
+    }
+
+    @Test
+    @DisplayName("Test getting all Hotels")
+    void allHoteltest()
+    {
+        HotelDAO hotelDAO = HotelDAO.getInstance(emf);
+        int totalHotels = hotelDAO.readAll().size();
+        given()
+                .when()
+                .get("/hotel")
+                .then()
+                .statusCode(200)
+                .body("$.size()", equalTo(totalHotels));
     }
 
     @Test
