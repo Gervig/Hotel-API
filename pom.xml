@@ -23,6 +23,7 @@
         <rest-assured.version>5.5.0</rest-assured.version>
         <testcontainers.version>1.20.4</testcontainers.version>
         <jackson.version>2.15.2</jackson.version>
+        <jbcrypt.version>0.4</jbcrypt.version>
     </properties>
 
     <dependencies>
@@ -130,6 +131,14 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
+
+        <!-- Security -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>${jbcrypt.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
