@@ -17,8 +17,6 @@ public class User implements ISecurityUser
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @Column(unique = true)
     @Getter
     private String username;
     private String password;
