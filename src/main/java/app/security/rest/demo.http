@@ -11,7 +11,7 @@ POST http://localhost:7070/api/auth/login
 Content-Type: application/json
 
 {
-"username":"user5",
+"username":"user6",
 "password":"p1234"
 }
 
