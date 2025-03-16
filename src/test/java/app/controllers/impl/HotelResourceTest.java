@@ -115,6 +115,11 @@ class HotelResourceTest
                 .delete("/hotel/1")
                 .then()
                 .statusCode(204);
+
+        when()
+                .get("/hotel/1")
+                .then()
+                .statusCode(404);
     }
 
     // Helper method for creating test DTOs
