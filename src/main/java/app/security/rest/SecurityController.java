@@ -43,7 +43,8 @@ public class SecurityController implements ISecurityController
         };
     }
 
-    private UserDTO verifyToken(String token)
+    @Override
+    public UserDTO verifyToken(String token)
     {
         boolean IS_DEPLOYED = (System.getenv("DEPLOYED") != null);
         String SECRET = IS_DEPLOYED ? System.getenv("SECRET_KEY") : Utils.getPropertyValue("SECRET_KEY", "config.properties");
@@ -92,8 +93,6 @@ public class SecurityController implements ISecurityController
     @Override
     public Handler authenticate()
     {
-        ObjectNode returnObject = objectMapper.createObjectNode();
-
         return (ctx) ->
         {
             // This is a preflight request => no need for authentication
@@ -102,10 +101,6 @@ public class SecurityController implements ISecurityController
                 ctx.status(200);
                 return;
             }
-            // If the endpoint is not protected with roles or is open to ANYONE role, then skip
-            Set<String> allowedRoles = ctx.routeRoles().stream().map(role -> role.toString().toUpperCase()).collect(Collectors.toSet());
-            if (isOpenEndpoint(allowedRoles))
-                return;
 
             // If there is no token we do not allow entry
             String header = ctx.header("Authorization");
@@ -130,13 +125,10 @@ public class SecurityController implements ISecurityController
         };
     }
 
-
      // Purpose: To check if the Authenticated user has the rights to access a protected endpoint
     @Override
     public Handler authorize()
     {
-        ObjectNode returnObject = objectMapper.createObjectNode();
-
         return (ctx) ->
         {
             Set<String> allowedRoles = ctx.routeRoles()
@@ -186,7 +178,8 @@ public class SecurityController implements ISecurityController
         return false;
     }
 
-    private String createToken(UserDTO user)
+    @Override
+    public String createToken(UserDTO user)
     {
         try
         {
