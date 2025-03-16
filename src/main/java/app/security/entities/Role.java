@@ -19,7 +19,7 @@ public class Role {
     private String name;
     @ManyToMany(mappedBy = "roles")
     @ToString.Exclude
-    Set<User> users = new HashSet<>();
+    private Set<User> users = new HashSet<>();
 
     public Role(String name){
         this.name = name;
