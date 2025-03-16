@@ -2,6 +2,7 @@ package app.security.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -9,14 +10,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
+@Table(name = "users")
 @NamedQueries(@NamedQuery(name = "User.deleteAllRows", query = "DELETE from User"))
 public class User implements ISecurityUser
 {
     //Username og password er bare minimum når man skal kunne oprette sig
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     private String username;
     private String password;
@@ -29,6 +29,7 @@ public class User implements ISecurityUser
     )
     @ToString.Exclude
     @Getter
+    @Setter
     Set<Role> roles = new HashSet<>();
 
     public User(String username, String password)
@@ -57,7 +58,7 @@ public class User implements ISecurityUser
     public void addRole(Role role)
     {
         roles.add(role);
-        role.users.add(this);
+        role.getUsers().add(this);
     }
 
     @Override
@@ -68,7 +69,7 @@ public class User implements ISecurityUser
             if (roleEntity.getName().equals(role))
             {
                 roles.remove(roleEntity);
-                roleEntity.users.remove(this);
+                roleEntity.getUsers().remove(this);
             }
         }
     }
