@@ -8,6 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
+@NamedQueries(@NamedQuery(name = "User.deleteAllRows", query = "DELETE from User"))
 public class User implements ISecurityUser
 {
     //Username og password er bare minimum når man skal kunne oprette sig
@@ -16,8 +17,8 @@ public class User implements ISecurityUser
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(unique = true)
-    String username;
-    String password;
+    private String username;
+    private String password;
 
     @ManyToMany
     @JoinTable(
@@ -57,9 +58,8 @@ public class User implements ISecurityUser
     @Override
     public void removeRole(String role)
     {
-        //roles.removeIf(roleEntity->roleEntity.name.equals(role));
         for(Role roleEntity : roles){
-            if(roleEntity.name.equals(role)){
+            if(roleEntity.getName().equals(role)){
                 roles.remove(roleEntity);
                 roleEntity.users.remove(this);
             }
