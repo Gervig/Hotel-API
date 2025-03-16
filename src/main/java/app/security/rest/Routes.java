@@ -1,17 +1,17 @@
-package app.rest;
+package app.security.rest;
 
 import app.controllers.impl.HotelController;
 import app.dtos.ErrorMessage;
 import app.dtos.HotelDTO;
 import app.dtos.RoomDTO;
-import app.entities.Hotel;
+import app.security.enums.Role;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.apibuilder.EndpointGroup;
 import jakarta.persistence.EntityManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -19,6 +19,8 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 public class Routes
 {
     private static HotelController hotelController;
+    private static ISecurityController securityController = new SecurityController();
+    private static ObjectMapper objectMapper = new ObjectMapper();
     private static Logger logger = LoggerFactory.getLogger(Routes.class);
 
     public static EndpointGroup getRoutes(EntityManagerFactory emf)
@@ -126,6 +128,15 @@ public class Routes
                         ctx.status(404).json(error);
                     }
                 });
+            });
+            path("auth", () ->
+            {
+                post("register", securityController.register());
+                post("login", securityController.login());
+            });
+            path("secured", () ->
+            {
+                get("demo", ctx -> ctx.json(objectMapper.createObjectNode().put("msg", "Success")), Role.USER);
             });
         };
     }

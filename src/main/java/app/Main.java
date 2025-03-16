@@ -3,8 +3,8 @@ package app;
 import app.config.HibernateConfig;
 import app.populators.HotelPopulator;
 import app.populators.UserPopulator;
-import app.rest.ApplicationConfig;
-import app.rest.Routes;
+import app.security.rest.ApplicationConfig;
+import app.security.rest.Routes;
 import jakarta.persistence.EntityManagerFactory;
 
 public class Main

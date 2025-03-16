@@ -2,12 +2,11 @@ package app.controllers.impl;
 
 import app.config.HibernateConfig;
 import app.dtos.HotelDTO;
-import app.dtos.RoomDTO;
 import app.entities.Hotel;
 import app.entities.Room;
 import app.populators.HotelPopulator;
-import app.rest.ApplicationConfig;
-import app.rest.Routes;
+import app.security.rest.ApplicationConfig;
+import app.security.rest.Routes;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
