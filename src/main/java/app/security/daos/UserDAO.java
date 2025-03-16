@@ -2,11 +2,15 @@ package app.security.daos;
 
 import app.config.HibernateConfig;
 import app.exceptions.ApiException;
+import app.exceptions.ValidationException;
+import dk.bugelhartmann.UserDTO;
 import jakarta.persistence.EntityManager;
 import app.security.entities.User;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserDAO
 {
@@ -55,6 +59,19 @@ public class UserDAO
         } catch (Exception e)
         {
             throw new ApiException(404, "Error user not found", e);
+        }
+    }
+
+    public UserDTO getVerifiedUser(String username, String password) throws ValidationException
+    {
+        try (EntityManager em = emf.createEntityManager()) {
+            User user = em.find(User.class, username);
+            if (user == null)
+                throw new EntityNotFoundException("No user found with username: " + username); //RuntimeException
+            user.getRoles().size(); // force roles to be fetched from db
+            if (!user.verifyPassword(password))
+                throw new ValidationException("Wrong password");
+            return new UserDTO(user.getUsername(), user.getRoles().stream().map(r -> r.getName()).collect(Collectors.toSet()));
         }
     }
 

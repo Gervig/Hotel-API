@@ -1,21 +1,22 @@
 package app.security.rest;
 
+import app.exceptions.ApiException;
+import app.exceptions.NotAuthorizedException;
+import app.exceptions.ValidationException;
+import app.security.daos.UserDAO;
+import app.security.entities.User;
+import app.utils.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import dk.bugelhartmann.ITokenSecurity;
 import dk.bugelhartmann.TokenSecurity;
 import dk.bugelhartmann.TokenVerificationException;
 import dk.bugelhartmann.UserDTO;
-import dk.cphbusiness.exceptions.ApiException;
-import dk.cphbusiness.exceptions.NotAuthorizedException;
-import dk.cphbusiness.exceptions.ValidationException;
-import dk.cphbusiness.security.UserDAO;
-import dk.cphbusiness.security.entities.User;
-import dk.cphbusiness.utils.Utils;
 import io.javalin.http.ForbiddenResponse;
 import io.javalin.http.Handler;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.UnauthorizedResponse;
+import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.text.ParseException;
@@ -29,15 +30,15 @@ import java.util.stream.Collectors;
  */
 public class SecurityController implements ISecurityController {
 
-    ITokenSecurity tokenSecurity = new TokenSecurity();
-    ObjectMapper objectMapper = new ObjectMapper();
-
-    private UserDAO userDAO = UserDAO.getInstance();
+    private ITokenSecurity tokenSecurity = new TokenSecurity();
+    private ObjectMapper objectMapper = new ObjectMapper();
+    private static EntityManagerFactory emf;
+    private UserDAO userDAO = UserDAO.getInstance(emf);
     @Override
     public Handler register(){
         return (ctx)->{
             UserDTO newUser = ctx.bodyAsClass(UserDTO.class);
-             User createdUser = userDAO.createUser(new User(newUser.getUsername(), newUser.getPassword()));
+             User createdUser = userDAO.create(new User(newUser.getUsername(), newUser.getPassword()));
              Set<String> roles = createdUser.getRoles().stream().map(role->role.getName()).collect(Collectors.toSet());
              UserDTO returnUserDTO = new UserDTO(createdUser.getUsername(), roles);
             ctx.json(returnUserDTO);
