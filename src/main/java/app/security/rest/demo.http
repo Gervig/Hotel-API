@@ -17,5 +17,4 @@ Content-Type: application/json
 
 ###
 GET http://localhost:7070/api/secured/demo
-Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJcIlRob21hcyBIYXJ0bWFublwiIiwic3ViIjoidXNlcjUiLCJleHAiOjE3NDE4NzA4OTEsInJvbGVzIjoidXNlciIsInVzZXJuYW1lIjoidXNlcjUifQ.7IV6bwTFJz0U5W5oQ8ZDMapHGe9qpUBtemcbAP5phTg"
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJcIkNhc3BlciBHZXJ2aWdcIiIsInN1YiI6InVzZXI2IiwiZXhwIjoxNzQyMTQxNTY0LCJyb2xlcyI6InVzZXIiLCJ1c2VybmFtZSI6InVzZXI2In0.Qo0ZM6zf5PN-n_LhK5RA3O0cWeiXa2JWA-F2RbVLl3Y
