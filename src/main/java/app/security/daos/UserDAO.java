@@ -3,13 +3,16 @@ package app.security.daos;
 import app.config.HibernateConfig;
 import app.exceptions.ApiException;
 import app.exceptions.ValidationException;
+import app.security.entities.Role;
 import dk.bugelhartmann.UserDTO;
 import jakarta.persistence.EntityManager;
 import app.security.entities.User;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityNotFoundException;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class UserDAO
@@ -24,7 +27,7 @@ public class UserDAO
 
     public static UserDAO getInstance(EntityManagerFactory _emf)
     {
-        if(emf == null)
+        if (emf == null)
         {
             emf = _emf;
             instance = new UserDAO();
@@ -34,16 +37,42 @@ public class UserDAO
     // ** singleton
 
 
-    public User create(User user){
-        try(EntityManager em = emf.createEntityManager()){
+    public User create(User user)
+    {
+        try (EntityManager em = emf.createEntityManager())
+        {
+            Set<Role> newRoleSet = new HashSet<>();
+            if (user.getRoles().isEmpty())
+            {
+                Role userRole = em.find(Role.class, "user");
+                if (userRole == null)
+                {
+                    // sets default user role
+                    userRole = new Role("user");
+                    em.persist(userRole);
+                }
+                user.addRole(userRole);
+            }
+            user.getRoles().forEach(role ->
+            {
+                Role foundRole = em.find(Role.class, role.getName());
+                if (foundRole == null)
+                {
+                    throw new EntityNotFoundException("No role found with that id");
+                } else
+                {
+                    newRoleSet.add(foundRole);
+                }
+            });
+            user.setRoles(newRoleSet);
             em.getTransaction().begin();
             em.persist(user);
             em.getTransaction().commit();
-            return user;
-        } catch(Exception ex){
+        } catch (Throwable ex)
+        {
             ex.printStackTrace();
         }
-        return null;
+        return user;
     }
 
     public User read(Integer id)
@@ -64,7 +93,8 @@ public class UserDAO
 
     public UserDTO getVerifiedUser(String username, String password) throws ValidationException
     {
-        try (EntityManager em = emf.createEntityManager()) {
+        try (EntityManager em = emf.createEntityManager())
+        {
             User user = em.find(User.class, username);
             if (user == null)
                 throw new EntityNotFoundException("No user found with username: " + username); //RuntimeException
