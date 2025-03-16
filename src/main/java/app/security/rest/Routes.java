@@ -136,6 +136,8 @@ public class Routes
             });
             path("secured", () ->
             {
+                before(securityController.authenticate());
+                before(securityController.authorize());
                 get("demo", ctx -> ctx.json(objectMapper.createObjectNode().put("msg", "Success")), Role.USER);
             });
         };
