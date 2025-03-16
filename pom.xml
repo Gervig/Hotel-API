@@ -24,7 +24,15 @@
         <testcontainers.version>1.20.4</testcontainers.version>
         <jackson.version>2.15.2</jackson.version>
         <jbcrypt.version>0.4</jbcrypt.version>
+        <token.security.version>1.0.4</token.security.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <!--  Database Dependencies -->
@@ -137,6 +145,12 @@
             <groupId>org.mindrot</groupId>
             <artifactId>jbcrypt</artifactId>
             <version>${jbcrypt.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.Hartmannsolution</groupId>
+            <artifactId>TokenSecurity</artifactId>
+            <version>${token.security.version}</version>
         </dependency>
 
     </dependencies>
