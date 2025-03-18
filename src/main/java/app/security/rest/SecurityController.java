@@ -101,7 +101,7 @@ public class SecurityController implements ISecurityController
                 ctx.status(200);
                 return;
             }
-            //TODO det her er ikke smart, 
+            //TODO det her er ikke smart,
             // hvis ens token er forkert kommer man stadig igennem hvis det er et åbent endpoint
 
             // If the endpoint is not protected with roles or is open to ANYONE role, then skip
