@@ -14,7 +14,10 @@ Content-Type: application/json
 "username":"user6",
 "password":"p1234"
 }
+> {%
+    client.global.set("token", response.body.token);
+%}
 
 ###
 GET http://localhost:7070/api/secured/demo
-Authorization: Bearer 
+Authorization: Bearer {{token}}

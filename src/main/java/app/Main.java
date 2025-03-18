@@ -19,6 +19,7 @@ public class Main
         ApplicationConfig
                 .getInstance()
                 .initiateServer()
+                .securityCheck()
                 .setRoute(Routes.getRoutes(emf))
                 .handleException()
                 .startServer(7070);

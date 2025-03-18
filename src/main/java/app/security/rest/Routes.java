@@ -131,13 +131,13 @@ public class Routes
             });
             path("auth", () ->
             {
-                post("register", securityController.register());
-                post("login", securityController.login());
+                post("register", securityController.register(), Role.ANYONE);
+                post("login", securityController.login(), Role.ANYONE);
             });
             path("secured", () ->
             {
-                before(securityController.authenticate());
-                before(securityController.authorize());
+//                before(securityController.authenticate());
+//                before(securityController.authorize());
                 get("demo", ctx -> ctx.json(objectMapper.createObjectNode().put("msg", "Success")), Role.USER);
             });
         };

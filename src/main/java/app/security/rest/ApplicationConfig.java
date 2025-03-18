@@ -6,6 +6,7 @@ import io.javalin.Javalin;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.config.JavalinConfig;
 
+import static io.javalin.apibuilder.ApiBuilder.before;
 import static io.javalin.apibuilder.ApiBuilder.path;
 
 public class ApplicationConfig
@@ -14,6 +15,7 @@ public class ApplicationConfig
     private static Javalin app;
     private static JavalinConfig javalinConfig;
     private ObjectMapper objectMapper = new ObjectMapper();
+    private ISecurityController securityController = new SecurityController();
 
     // singleton, private constructor
     private ApplicationConfig()
@@ -51,6 +53,13 @@ public class ApplicationConfig
         {
             path("/", route);
         });
+        return applicationConfig;
+    }
+
+    public ApplicationConfig securityCheck()
+    {
+        app.before(securityController.authenticate());
+        app.before(securityController.authorize());
         return applicationConfig;
     }
 
