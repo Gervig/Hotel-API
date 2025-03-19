@@ -22,7 +22,7 @@ public class Main
                 .securityCheck()
                 .setRoute(Routes.getRoutes(emf))
                 .handleException()
-                .startServer(7070);
+                .startServer(7073);
 
     }
 
