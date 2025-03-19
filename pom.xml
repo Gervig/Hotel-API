@@ -158,15 +158,8 @@
     <build>
         <finalName>app</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M7</version> <!-- Make sure to use a version that supports JUnit 5 -->
-            </plugin>
-
             <!-- Maven Shade Plugin for creating a fat JAR -->
             <plugin>
-
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.5.1</version>
