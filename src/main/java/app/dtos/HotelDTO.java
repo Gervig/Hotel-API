@@ -31,6 +31,5 @@ public class HotelDTO
                 .stream()
                 .map(RoomDTO::new)
                 .collect(Collectors.toList());
-
     }
 }
